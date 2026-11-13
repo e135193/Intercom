@@ -1,0 +1,11 @@
+## IDF component manager manifest.
+## PlatformIO (framework=espidf) bu dosyayi isler ve bagimliligi
+## managed_components/ altina indirir.
+version: "1.0.0"
+description: "ESP32-S3 two-way Opus UDP intercom firmware"
+
+dependencies:
+  # xiph/opus kaynagi, FIXED_POINT ile derlenen ESP-IDF paketi.
+  # (CMakeLists.txt'inde -DFIXED_POINT=1 -DDISABLE_FLOAT_API tanimlanir.)
+  78/esp-opus: "^1.0.5"
+  idf: ">=5.0"

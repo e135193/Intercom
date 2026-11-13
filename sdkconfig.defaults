@@ -1,0 +1,36 @@
+# ESP32-S3 8 MB PSRAM (octal modul, N8R8).
+# Quad PSRAM'li modul kullanilanizsa OCT satirini QUAD yapin:
+#   CONFIG_SPIRAM_MODE_QUAD=y   (yerine CONFIG_SPIRAM_MODE_OCT=y)
+CONFIG_SPIRAM=y
+CONFIG_SPIRAM_MODE_OCT=y
+CONFIG_SPIRAM_SPEED_80M=y
+CONFIG_SPIRAM_USE_MALLOC=y
+# Opus encoder/decoder durumu icin malloc esigi (kucuk tahsisler dahili RAM'de kalsin)
+CONFIG_SPIRAM_MALLOC_ALWAYSINTERNAL=16384
+
+# CPU 240 MHz, FreeRTOS tick 1000 Hz (istenen zamanlama cozunurlugu)
+CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240=y
+CONFIG_FREERTOS_HZ=1000
+
+# app_main biraz daha buyuk olsun (wifi/nvs/opus kurulumu)
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=8192
+
+# Wi-Fi tamponlari: dusuk gecikme / kucuk ara bellekler.
+# Paketler kucuk (12 bayt baslik + <=512 bayt payload); buyuk tampon gecikme artirir.
+CONFIG_ESP_WIFI_STATIC_RX_BUFFER_NUM=8
+CONFIG_ESP_WIFI_DYNAMIC_RX_BUFFER_NUM=32
+CONFIG_ESP_WIFI_DYNAMIC_TX_BUFFER_NUM=32
+
+# lwIP: kucuk varsayilan tamponlari buyutme (UDP yolunda ek tampon = ek gecikme).
+# SO_RCVTIMEO ile kisa recv zaman asimi kullanilir (bkz. net_udp.c).
+CONFIG_LWIP_UDP_RECVMBOX_SIZE=8
+
+# 8 MB flash (N8 modulu); varsayilan 2 MB tespiti duzeltir
+CONFIG_ESPTOOLPY_FLASHSIZE_8MB=y
+
+# Uygulama bolumu 1500K (varsayilan 1M %97 doluydu, sonraki degisiklikte
+# linker tasmasi olusurdu). 8 MB flash'ta yeterince bos yer.
+CONFIG_PARTITION_TABLE_SINGLE_APP_LARGE=y
+
+# Varsayilan konsol UART0. USB Serial/JTAG konsolu istenirse asagidaki satiri acin:
+# CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y
